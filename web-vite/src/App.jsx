@@ -6,10 +6,23 @@ import Navbar from './components/Navbar'
 
 function App() {
   const [color, setColor] = useState("blue")
-
+  
+  const [mode , setMode]= useState ('dark')
+  const [text , setText] =useState ('Set Color')
+  const toggleMode= ()=>{
+    if(mode == 'light'){
+      setMode('dark')
+      setText('Set Light')
+    }
+  else{
+      setMode('light')
+      setText('Set Dark')
+  }
+}
   return (
     <>
-    <Navbar  title= "this is navbar"/>
+    <Navbar  title= "this is navbar" mode={mode}text={text} toggleMode={toggleMode}/>
+
       {/* logo part */}
       <div>
         <a href="https://vite.dev" target="_blank">

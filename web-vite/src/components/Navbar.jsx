@@ -3,9 +3,9 @@ import React from 'react'
 const Navbar = (props) => {
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <nav class={`navbar navbar-expand-lg navbar-${props.mode} bg-${props.mode}`}>
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">Header</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -33,9 +33,10 @@ const Navbar = (props) => {
         </li>
       </ul>
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        {/* <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+        <button class="btn btn-success" type="submit" onCl>Search</button> */}
       </form>
+      <button className="btn btn-success" onClick={props.toggleMode}>{props.text}</button>
     </div>
   </div>
 </nav>
