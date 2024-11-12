@@ -1,46 +1,72 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import 'bootstrap'
+import 'bootstrap/scss/bootstrap.scss'
 import './App.css'
-import Navbar from './components/Navbar'
+import ToggleMode from './components/ToggleMode'
+import Header from './components/Header'
+import Alert from './components/Alert'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route  
+} from "react-router-dom";
+import Home from './components/Home'
+import About from './components/About'
+import Contact from './components/Contact'
+import Classes from './components/Classes'
+import Func from './components/Func'
+import Counter from './components/Counter'
+import User from './components/User'
+import UserList from './components/UserList'
+
 
 function App() {
-  const [color, setColor] = useState("blue")
-  
-  const [mode , setMode]= useState ('dark')
-  const [text , setText] =useState ('Set Color')
-  const toggleMode= ()=>{
-    if(mode == 'light'){
-      setMode('dark')
-      setText('Set Light')
-    }
-  else{
-      setMode('light')
-      setText('Set Dark')
+  const [mode, setMode] = useState('light');
+  const [alert, setAlert] = useState(null);
+
+  const body = document.body
+
+  const showAlert = (type, message) => {
+    setAlert({
+      type: type,
+      message: message
+    })
+    setTimeout(() => {
+      setAlert(null)
+    }, 3000);
   }
-}
+
+  const toggleMode = () => {
+    if (mode == 'dark') {
+      setMode('light');
+      showAlert('success', 'Light Mode is Activated')
+      body.classList.add("light-mode")
+      body.classList.remove("dark-mode")
+    } else {
+      setMode('dark')
+      showAlert('success', 'Dark Mode is Activated')
+      body.classList.add("dark-mode")
+      body.classList.remove("light-mode")
+    }
+  }
+
   return (
     <>
-    <Navbar  title= "this is navbar" mode={mode}text={text} toggleMode={toggleMode}/>
-
-      {/* logo part */}
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      {/* logo part */}
-
-
-      <h1>New Vite WebSite</h1>
-      <div className="card">
-        <button onClick={() => setColor("red")}>
-        Click on here {color}
-        </button>
-      </div>
+      <Router>
+        <ToggleMode mode={mode} toggleMode={toggleMode} />
+        <Header logo="This is Logo" mode={mode} />
+        <Alert alert={alert} showAlert={showAlert} />
+        {/* <Classes /> */}
+        {/* <Func /> */}
+        {/* <Counter /> */}
+        <Routes>
+          <Route path="/" element={<Home showAlert={showAlert} />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/user/:userId/:userName" element={<User />} />
+          <Route path="/user" element={<UserList />} />
+        </Routes>
+      </Router>
     </>
   )
 }
