@@ -1,30 +1,38 @@
 import { useState } from 'react'
-import 'bootstrap'
-import 'bootstrap/scss/bootstrap.scss'
+
 import './App.css'
-import ToggleMode from './components/ToggleMode'
-import Header from './components/Header'
+import Navbar from './components/Navbar'
 import Alert from './components/Alert'
 import {
   BrowserRouter as Router,
   Routes,
-  Route  
+  Route,
+
 } from "react-router-dom";
-import Home from './components/Home'
-import About from './components/About'
-import Contact from './components/Contact'
-import Classes from './components/Classes'
-import Func from './components/Func'
-import Counter from './components/Counter'
-import User from './components/User'
-import UserList from './components/UserList'
+import Contact from './components/Contact';
+import ToggleMode from './components/ToggleMode'
+import About from './components/About';
+import Home from './components/Home';
+
+import Counter from '../src/features/counter/Counter';
+
+import User from './components/User';
+import UserList from './components/UserList';
+import ProductState from './context/ProductState';
+import Signup from './components/Signup';
+import Login from './components/Login';
+import CartItems from './components/CartItems';
+import Addproduct from './components/AddProduct';
+
+
+
 
 
 function App() {
-  const [mode, setMode] = useState('light');
-  const [alert, setAlert] = useState(null);
-
-  const body = document.body
+  // const [color, setColor] = useState("blue")
+  const [mode, setMode] = useState('light')
+  const [text, setText] = useState('enable dark mode')
+  const [alert, setAlert] = useState(null)
 
   const showAlert = (type, message) => {
     setAlert({
@@ -33,40 +41,52 @@ function App() {
     })
     setTimeout(() => {
       setAlert(null)
-    }, 3000);
+    }, 1000);
+
   }
 
+
+
   const toggleMode = () => {
-    if (mode == 'dark') {
-      setMode('light');
-      showAlert('success', 'Light Mode is Activated')
-      body.classList.add("light-mode")
-      body.classList.remove("dark-mode")
-    } else {
+    if (mode == 'light') {
       setMode('dark')
-      showAlert('success', 'Dark Mode is Activated')
-      body.classList.add("dark-mode")
-      body.classList.remove("light-mode")
+      setText('enable light mode')
+      showAlert('success', 'dark mode has been enable')
+    }
+    else {
+      setMode('light')
+      setText('enable dark mode')
+      showAlert('success', 'light mode has been enable')
     }
   }
 
+
   return (
     <>
-      <Router>
-        <ToggleMode mode={mode} toggleMode={toggleMode} />
-        <Header logo="This is Logo" mode={mode} />
-        <Alert alert={alert} showAlert={showAlert} />
-        {/* <Classes /> */}
-        {/* <Func /> */}
-        {/* <Counter /> */}
-        <Routes>
-          <Route path="/" element={<Home showAlert={showAlert} />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/user/:userId/:userName" element={<User />} />
-          <Route path="/user" element={<UserList />} />
-        </Routes>
-      </Router>
+      <ProductState>
+        <Router>
+          <Navbar title="logo here" mode={mode} text={text} toggleMode={toggleMode} />
+          <Alert alert={alert} showAlert={showAlert} />
+          {/* <Counter /> */}
+          {/* <Func /> */}
+          {/* <Counter /> */}
+          <Routes>
+            <Route path='/' element={<Home showAlert={showAlert} />} />
+            <Route path='/contact' element={<Contact />} />
+            <Route path='/about' element={<About />} />
+            <Route path="/user/:userId/:userName" element={<User />} />
+            <Route path="/user" element={<UserList />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/cartitem" element={<CartItems/>} />
+            <Route path="/addproduct" element={<Addproduct showAlert={showAlert}/>} />
+            
+
+            
+         
+          </Routes>
+        </Router>
+      </ProductState>
     </>
   )
 }

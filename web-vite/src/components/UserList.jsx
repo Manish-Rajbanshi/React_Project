@@ -8,6 +8,7 @@ const UserList = () => {
         { id: 1, name: "Ram" },
         { id: 2, name: "Shyam" },
         { id: 3, name: "Hari" },
+        { id: 4, name: "Hari1" },
     ]
 
     const handleUser = (userId, userName) => {
